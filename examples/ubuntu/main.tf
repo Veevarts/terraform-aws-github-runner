@@ -1,6 +1,6 @@
 locals {
   environment = "ubuntu"
-  aws_region  = "eu-west-1"
+  aws_region  = "sa-east-1"
 }
 
 resource "random_id" "random" {
@@ -26,15 +26,25 @@ module "runners" {
     Project = "ProjectX"
   }
 
+
+  # Github App 
+  # key_base64 = https://drive.google.com/drive/u/1/folders/0B6wqfbgTB2dKN212MXlJZmJQSUU?resourcekey=0-O4xD3VFNyN673iuT123Ohg | Note: use the command base64 -i <file> and copy the result.
+  # id = https://github.com/organizations/Veevarts/settings/apps/veevart-terraform-aws-gh-runner
   github_app = {
-    key_base64     = var.github_app.key_base64
-    id             = var.github_app.id
+    key_base64     = <snip>
+    id             = <snip>
     webhook_secret = random_id.random.hex
   }
 
-  # webhook_lambda_zip                = "lambdas-download/webhook.zip"
-  # runner_binaries_syncer_lambda_zip = "lambdas-download/runner-binaries-syncer.zip"
-  # runners_lambda_zip                = "lambdas-download/runners.zip"
+  # github_app = {
+  #   key_base64     = var.github_app.key_base64
+  #   id             = var.github_app.id
+  #   webhook_secret = random_id.random.hex
+  # }
+
+  webhook_lambda_zip                = "../lambdas-download/webhook.zip"
+  runner_binaries_syncer_lambda_zip = "../lambdas-download/runner-binaries-syncer.zip"
+  runners_lambda_zip                = "../lambdas-download/runners.zip"
 
   enable_organization_runners = false
   runner_extra_labels         = "default,example"
