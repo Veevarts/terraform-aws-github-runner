@@ -1,6 +1,6 @@
 locals {
   environment = "ubuntu"
-  aws_region  = "sa-east-1"
+  aws_region  = "us-east-2"
 }
 
 resource "random_id" "random" {
@@ -30,24 +30,24 @@ module "runners" {
   # Github App 
   # key_base64 = https://drive.google.com/drive/u/1/folders/0B6wqfbgTB2dKN212MXlJZmJQSUU?resourcekey=0-O4xD3VFNyN673iuT123Ohg | Note: use the command base64 -i <file> and copy the result.
   # id = https://github.com/organizations/Veevarts/settings/apps/veevart-terraform-aws-gh-runner
-  github_app = {
-    key_base64     = <snip>
-    id             = <snip>
-    webhook_secret = random_id.random.hex
-  }
-
+  # environment variables = https://developer.hashicorp.com/terraform/cli/config/environment-variables
   # github_app = {
-  #   key_base64     = var.github_app.key_base64
-  #   id             = var.github_app.id
+  #   key_base64     = <snip>
+  #   id             = <snip>
   #   webhook_secret = random_id.random.hex
   # }
 
+  github_app = {
+    key_base64     = var.github_app.key_base64
+    id             = var.github_app.id
+    webhook_secret = random_id.random.hex
+  }
   webhook_lambda_zip                = "../lambdas-download/webhook.zip"
   runner_binaries_syncer_lambda_zip = "../lambdas-download/runner-binaries-syncer.zip"
   runners_lambda_zip                = "../lambdas-download/runners.zip"
 
   enable_organization_runners = false
-  runner_extra_labels         = ["default", "example"]
+  runner_extra_labels         = ["self-hosted-us-east-2","us-east-2"]
 
   # enable access to the runners via SSM
   enable_ssm_on_runners = true
@@ -107,9 +107,9 @@ module "runners" {
   ]
 
   # Uncomment to enable ephemeral runners
-  # delay_webhook_event      = 0
-  # enable_ephemeral_runners = true
-  # enable_userdata         = true
+  delay_webhook_event      = 0
+  enable_ephemeral_runners = true
+  enable_userdata         = true
 
   # Uncommet idle config to have idle runners from 9 to 5 in time zone Amsterdam
   # idle_config = [{

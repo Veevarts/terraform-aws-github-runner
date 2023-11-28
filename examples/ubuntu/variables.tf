@@ -1,8 +1,8 @@
-# variable "github_app" {
-#   description = "GitHub for API usages."
+variable "github_app" {
+  description = "GitHub for API usages."
 
-#   type = object({
-#     id         = string
-#     key_base64 = string
-#   })
-# }
+  type = object({
+    id         = string
+    key_base64 = string
+  })
+}

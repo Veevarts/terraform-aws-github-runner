@@ -87,7 +87,7 @@ resource "aws_lambda_permission" "scale_runners_lambda" {
 }
 
 resource "aws_iam_role" "scale_up" {
-  name                 = "${var.prefix}-action-scale-up-lambda-role"
+  name                 = "${var.prefix}-action-scale-up-lambda-role-2"
   assume_role_policy   = data.aws_iam_policy_document.lambda_assume_role_policy.json
   path                 = local.role_path
   permissions_boundary = var.role_permissions_boundary
