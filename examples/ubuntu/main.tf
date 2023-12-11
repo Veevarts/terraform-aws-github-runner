@@ -28,9 +28,13 @@ module "runners" {
 
 
   # Github App 
-  # key_base64 = https://drive.google.com/drive/u/1/folders/0B6wqfbgTB2dKN212MXlJZmJQSUU?resourcekey=0-O4xD3VFNyN673iuT123Ohg | Note: use the command base64 -i <file> and copy the result.
-  # id = https://github.com/organizations/Veevarts/settings/apps/veevart-terraform-aws-gh-runner
+  # key_base64 = https://drive.google.com/drive/u/0/folders/0B6wqfbgTB2dKN212MXlJZmJQSUU?resourcekey=0-O4xD3VFNyN673iuT123Ohg | Note: use the command base64 -i <file> and copy the result.
+  # id = https://github.com/organizations/Veevarts/settings/apps/terraform-aws-gh-runner-us-east-2
   # environment variables = https://developer.hashicorp.com/terraform/cli/config/environment-variables
+  # Example: 
+  # key_base64=$(base64 -i /Users/anacabreraagudelo/Downloads/terraform-aws-gh-runner-us-east-2.2023-12-11.private-key.2023-09-19.private-key.pem)
+  # TF_VAR_github_app="{ key_base64 = \"$key_base64\", id = \"648736\" }"
+  #
   # github_app = {
   #   key_base64     = <snip>
   #   id             = <snip>
