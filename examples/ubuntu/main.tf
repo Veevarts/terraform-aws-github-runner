@@ -51,7 +51,7 @@ module "runners" {
   runners_lambda_zip                = "../lambdas-download/runners.zip"
 
   enable_organization_runners = false
-  runner_extra_labels         = ["self-hosted-us-east-2","us-east-2"]
+  runner_extra_labels         = ["self-hosted-us-east-2","us-east-2", "self-hosted-us-east-2-spot", "us-east-2-spot"]
 
   # enable access to the runners via SSM
   enable_ssm_on_runners = true

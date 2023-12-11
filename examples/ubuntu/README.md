@@ -11,12 +11,27 @@ Steps for the full setup, such as creating a GitHub app can be found in the root
 
 ```bash
 cd ../lambdas-download
+export TF_VAR_module_version="<VERSION>"
+terraform init
+terraform apply
+cd -
+```
+or 
+
+```bash
+cd ../lambdas-download
 terraform init
 terraform apply -var=module_version=<VERSION>
 cd -
 ```
 
 Before running Terraform, ensure the GitHub app is configured.
+
+> Do this only if you haven't set up the environment variables for this deployment.
+> ```bash
+> export key_base64=$(base64 -i /Users/anacabreraagudelo/Downloads/terraform-aws-gh-runner-us-east-2.2023-12-11.private-key.pem)
+> export TF_VAR_github_app="{ key_base64 = \"$key_base64\", id = \"648736\" }"
+> ```
 
 ```bash
 terraform init
