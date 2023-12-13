@@ -29,7 +29,7 @@ Before running Terraform, ensure the GitHub app is configured.
 
 > Do this only if you haven't set up the environment variables for this deployment.
 > ```bash
-> export key_base64=$(base64 -i /Users/anacabreraagudelo/Downloads/terraform-aws-gh-runner-us-east-2.2023-12-11.private-key.pem)
+> export key_base64=$(base64 -i <PEM path>)
 > export TF_VAR_github_app="{ key_base64 = \"$key_base64\", id = \"648736\" }"
 > ```
 
