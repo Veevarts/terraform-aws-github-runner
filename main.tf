@@ -123,12 +123,15 @@ module "ssm" {
 
 module "webhook" {
   source = "./modules/webhook"
-
+  ssm_paths = {
+    root    = local.ssm_root_path
+    webhook = var.ssm_paths.webhook
+  }
   prefix      = var.prefix
   tags        = local.tags
   kms_key_arn = var.kms_key_arn
 
-  runner_config = {
+  runner_matcher_config = {
     (aws_sqs_queue.queued_builds.id) = {
       id : aws_sqs_queue.queued_builds.id
       arn : aws_sqs_queue.queued_builds.arn
@@ -152,6 +155,7 @@ module "webhook" {
   lambda_runtime                                = var.lambda_runtime
   lambda_architecture                           = var.lambda_architecture
   lambda_zip                                    = var.webhook_lambda_zip
+  lambda_memory_size                            = var.webhook_lambda_memory_size
   lambda_timeout                                = var.webhook_lambda_timeout
   tracing_config                                = var.tracing_config
   logging_retention_in_days                     = var.logging_retention_in_days
@@ -234,6 +238,8 @@ module "runners" {
   lambda_runtime                   = var.lambda_runtime
   lambda_architecture              = var.lambda_architecture
   lambda_zip                       = var.runners_lambda_zip
+  lambda_scale_up_memory_size      = coalesce(var.runners_scale_up_Lambda_memory_size, var.runners_scale_up_lambda_memory_size)
+  lambda_scale_down_memory_size    = var.runners_scale_down_lambda_memory_size
   lambda_timeout_scale_up          = var.runners_scale_up_lambda_timeout
   lambda_timeout_scale_down        = var.runners_scale_down_lambda_timeout
   lambda_subnet_ids                = var.lambda_subnet_ids
@@ -258,6 +264,7 @@ module "runners" {
   enable_userdata                = var.enable_userdata
   enable_user_data_debug_logging = var.enable_user_data_debug_logging_runner
   userdata_template              = var.userdata_template
+  userdata_content               = var.userdata_content
   userdata_pre_install           = var.userdata_pre_install
   userdata_post_install          = var.userdata_post_install
   key_name                       = var.key_name
@@ -275,6 +282,7 @@ module "runners" {
   log_level = var.log_level
 
   pool_config                                = var.pool_config
+  pool_lambda_memory_size                    = var.pool_lambda_memory_size
   pool_lambda_timeout                        = var.pool_lambda_timeout
   pool_runner_owner                          = var.pool_runner_owner
   pool_lambda_reserved_concurrent_executions = var.pool_lambda_reserved_concurrent_executions
@@ -303,6 +311,7 @@ module "runner_binaries" {
   lambda_runtime                  = var.lambda_runtime
   lambda_architecture             = var.lambda_architecture
   lambda_zip                      = var.runner_binaries_syncer_lambda_zip
+  lambda_memory_size              = var.runner_binaries_syncer_lambda_memory_size
   lambda_timeout                  = var.runner_binaries_syncer_lambda_timeout
   tracing_config                  = var.tracing_config
   logging_retention_in_days       = var.logging_retention_in_days
